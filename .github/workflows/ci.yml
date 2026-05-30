@@ -1,0 +1,32 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run Linting
+      run: npm run lint
+
+    - name: Build React App
+      run: npm run build
+
+    - name: Build Docker Image
+      run: docker build --build-arg VITE_BACKEND_URL=http://localhost:5000 -t chatapp-frontend .
