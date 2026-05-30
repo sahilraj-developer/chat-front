@@ -1,11 +1,720 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
-*{
-  font-family: "Outfit", sans-serif;
+/* ============================================================
+   Telegram Nodes Color System
+   ============================================================ */
+:root {
+  /* Backgrounds */
+  --tg-bg:          #000000;
+  --tg-surface:     #1c1c1e;
+  --tg-surface-2:   #2c2c2e;
+  --tg-surface-3:   #3a3a3c;
+  --tg-chat-bg:     #000000;
+  --tg-panel:       #0a0a0a;
+
+  /* Accent */
+  --tg-accent:      #007aff;
+  --tg-accent-dim:  rgba(0, 122, 255, 0.15);
+  --tg-online:      #34c759;
+  --tg-danger:      #ff3b30;
+
+  /* Bubbles */
+  --tg-sent:        #007aff;
+  --tg-sent-text:   #ffffff;
+  --tg-received:    #1c1c1e;
+  --tg-received-text:#ffffff;
+
+  /* Text */
+  --tg-text:        #ffffff;
+  --tg-text-2:      #ebebf5cc;   /* ~80% white */
+  --tg-text-muted:  #8e8e93;
+  --tg-text-dim:    #636366;
+
+  /* Borders / dividers */
+  --tg-divider:     rgba(255,255,255,0.08);
+  --tg-border:      rgba(255,255,255,0.12);
+
+  /* Hover / active */
+  --tg-hover:       rgba(255,255,255,0.06);
+  --tg-active:      rgba(0, 122, 255, 0.12);
+
+  /* Misc */
+  --tg-badge:       #ff3b30;
+  --tg-badge-text:  #ffffff;
+  --tg-link:        #007aff;
+  --tg-panel-shadow: 0 8px 40px rgba(0,0,0,0.8);
+
+  /* Aliases for legacy CSS classes */
+  --wa-bg:               var(--tg-panel);
+  --wa-surface:          var(--tg-surface);
+  --wa-surface-elevated: var(--tg-surface-2);
+  --wa-chat-bg:          var(--tg-chat-bg);
+  --wa-input-bg:         var(--tg-surface);
+  --wa-sent:             var(--tg-sent);
+  --wa-sent-text:        var(--tg-sent-text);
+  --wa-received:         var(--tg-received);
+  --wa-received-text:    var(--tg-received-text);
+  --wa-accent:           var(--tg-accent);
+  --wa-accent-soft:      #0055cc;
+  --wa-accent-hover:     #409cff;
+  --wa-link:             var(--tg-link);
+  --wa-text:             var(--tg-text);
+  --wa-text-secondary:   var(--tg-text-muted);
+  --wa-text-muted:       var(--tg-text-dim);
+  --wa-border:           var(--tg-border);
+  --wa-divider:          var(--tg-divider);
+  --wa-hover:            var(--tg-hover);
+  --wa-active:           var(--tg-active);
+  --wa-unread:           var(--tg-badge);
+  --wa-online:           var(--tg-online);
+  --wa-avatar-group:     #48484a;
+  --wa-avatar-community: #1e3a5f;
+  --wa-danger:           var(--tg-danger);
+  --wa-panel:            var(--tg-panel);
 }
 
-::-webkit-scrollbar{
+/* ============================================================
+   Custom Themes
+   ============================================================ */
+.theme-ocean {
+  --tg-sent: #00b4db;
+  --tg-received: rgba(0, 180, 219, 0.15);
+  --tg-accent: #00b4db;
+  --wa-sent: var(--tg-sent);
+  --wa-received: var(--tg-received);
+  --wa-accent: var(--tg-accent);
+}
+
+.theme-sunset {
+  --tg-sent: #ff512f;
+  --tg-received: rgba(255, 81, 47, 0.15);
+  --tg-accent: #ff512f;
+  --wa-sent: var(--tg-sent);
+  --wa-received: var(--tg-received);
+  --wa-accent: var(--tg-accent);
+}
+
+.theme-forest {
+  --tg-sent: #11998e;
+  --tg-received: rgba(17, 153, 142, 0.15);
+  --tg-accent: #11998e;
+  --wa-sent: var(--tg-sent);
+  --wa-received: var(--tg-received);
+  --wa-accent: var(--tg-accent);
+}
+
+/* ============================================================
+   Base Reset
+   ============================================================ */
+* {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: var(--tg-bg);
+  color: var(--tg-text);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
+
+/* ============================================================
+   Shell / Layout
+   ============================================================ */
+.wa-app {
+  background: var(--tg-bg);
+  color: var(--tg-text);
+}
+
+.wa-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--tg-bg);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .wa-shell {
+    padding: 1rem;
+    align-items: center;
+  }
+}
+
+.wa-main-card {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  background: var(--tg-panel);
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .wa-main-card {
+    height: calc(100vh - 2rem);
+    height: calc(100dvh - 2rem);
+    max-width: 1440px;
+    border-radius: 14px;
+    border: 1px solid var(--tg-divider);
+    box-shadow: var(--tg-panel-shadow);
+    grid-template-columns: 360px minmax(0, 1fr);
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wa-main-card.wa-three-col {
+    grid-template-columns: 360px minmax(0, 1fr) 320px;
+  }
+}
+
+/* ============================================================
+   Panels
+   ============================================================ */
+.wa-panel {
+  background: var(--tg-panel);
+  border-right: 1px solid var(--tg-divider);
+  min-height: 0;
+}
+
+.wa-header {
+  background: var(--tg-panel);
+  border-bottom: 1px solid var(--tg-divider);
+  flex-shrink: 0;
+  min-height: 56px;
+}
+
+.wa-composer {
+  background: var(--tg-panel);
+  border-top: 1px solid var(--tg-divider);
+  flex-shrink: 0;
+}
+
+.wa-details-panel {
+  background: var(--tg-panel);
+  border-left: 1px solid var(--tg-divider);
+  min-height: 0;
+}
+
+.wa-chat-area {
+  background: var(--tg-chat-bg);
+  min-height: 0;
+}
+
+/* ============================================================
+   Inputs
+   ============================================================ */
+.wa-input {
+  background: var(--tg-surface);
+  border: 1px solid transparent;
+  outline: none;
+  color: var(--tg-text);
+  padding: 0.625rem 0.875rem;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  transition: border-color 0.15s;
+}
+
+.wa-input:focus { border-color: var(--tg-accent); }
+.wa-input::placeholder { color: var(--tg-text-dim); }
+
+/* Search bar */
+.wa-search {
+  background: var(--tg-surface);
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.wa-search:focus-within { border-color: var(--tg-accent); }
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.wa-btn-primary {
+  background: var(--tg-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: -0.01em;
+}
+.wa-btn-primary:hover:not(:disabled) { opacity: 0.88; }
+.wa-btn-primary:active:not(:disabled) { transform: scale(0.97); }
+.wa-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.wa-btn-ghost {
+  color: var(--tg-text-muted);
+  padding: 0.375rem;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wa-btn-ghost:hover {
+  color: var(--tg-text);
+  background: var(--tg-hover);
+}
+
+/* ============================================================
+   Chat List Items — Telegram-style, NO dividers
+   ============================================================ */
+.wa-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.1s;
+  position: relative;
+  min-height: 72px;
+}
+
+.wa-list-item:hover { background: var(--tg-hover); }
+
+.wa-list-item--active {
+  background: var(--tg-active);
+}
+.wa-list-item--active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10%; bottom: 10%;
+  width: 3px;
+  background: var(--tg-accent);
+  border-radius: 0 3px 3px 0;
+}
+
+.wa-list-item__title {
+  color: var(--tg-text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.wa-list-item__subtitle {
+  color: var(--tg-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.wa-list-item__subtitle--online { color: var(--tg-online); }
+
+/* ============================================================
+   Tabs
+   ============================================================ */
+.wa-tabs {
+  display: flex;
+  background: var(--tg-panel);
+  border-bottom: 1px solid var(--tg-divider);
+  padding: 0 0.5rem;
+}
+
+.wa-tab {
+  flex: 1;
+  padding: 0.75rem 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--tg-text-dim);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  letter-spacing: 0.01em;
+}
+.wa-tab:hover { color: var(--tg-text-2); }
+.wa-tab--active {
+  color: var(--tg-accent);
+  border-bottom-color: var(--tg-accent);
+}
+
+/* ============================================================
+   Avatars
+   ============================================================ */
+.wa-avatar {
+  width: 3.125rem;
+  height: 3.125rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.wa-avatar-sm {
+  width: 2.375rem;
+  height: 2.375rem;
+}
+
+.wa-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: #fff;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+.wa-avatar-placeholder--group     { background: #48484a; }
+.wa-avatar-placeholder--community { background: #1a3a5c; }
+
+/* ============================================================
+   Unread Badge — Telegram red dot
+   ============================================================ */
+.wa-badge {
+  min-width: 1.375rem;
+  height: 1.375rem;
+  padding: 0 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--tg-badge);
+  color: var(--tg-badge-text);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Message Bubbles — Telegram style
+   ============================================================ */
+.wa-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 1rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .wa-messages { padding: 1.25rem 5%; }
+}
+@media (min-width: 1100px) {
+  .wa-messages { padding: 1.5rem 12%; }
+}
+
+.wa-bubble-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.125rem;
+}
+.wa-bubble-row--mine   { align-items: flex-end; }
+.wa-bubble-row--theirs { align-items: flex-start; }
+
+.wa-bubble-sender {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--tg-accent);
+  margin-bottom: 0.15rem;
+  padding-left: 0.375rem;
+}
+
+.wa-bubble {
+  max-width: min(72%, 520px);
+  padding: 0.5rem 0.75rem 0.375rem;
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* Telegram-style tail */
+.wa-bubble-sent {
+  background: var(--tg-sent);
+  color: var(--tg-sent-text);
+  border-bottom-right-radius: 4px;
+}
+
+.wa-bubble-received {
+  background: var(--tg-received);
+  color: var(--tg-received-text);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--tg-divider);
+}
+
+.wa-bubble__text {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.wa-bubble__time {
+  font-size: 0.6875rem;
+  color: rgba(255,255,255,0.55);
+  text-align: right;
+  margin-top: 0.1rem;
+  float: right;
+  margin-left: 0.5rem;
+  line-height: 1;
+}
+
+/* ============================================================
+   Empty State
+   ============================================================ */
+.wa-empty-chat {
+  flex: 1;
   display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: var(--tg-chat-bg);
+}
+
+@media (min-width: 768px) { .wa-empty-chat { display: flex; } }
+
+.wa-empty-chat__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--tg-text);
+  margin: 1.5rem 0 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.wa-empty-chat__desc {
+  font-size: 0.875rem;
+  color: var(--tg-text-muted);
+  line-height: 1.55;
+  max-width: 26rem;
+}
+
+/* ============================================================
+   Modals
+   ============================================================ */
+.wa-modal-backdrop { background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); }
+
+.wa-modal {
+  background: var(--tg-surface);
+  border: 1px solid var(--tg-border);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+
+/* ============================================================
+   Login Card
+   ============================================================ */
+.wa-login-card {
+  background: var(--tg-surface);
+  border: 1px solid var(--tg-border);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+
+/* ============================================================
+   Links
+   ============================================================ */
+.wa-link { color: var(--tg-link); cursor: pointer; }
+.wa-link:hover { opacity: 0.8; }
+
+/* ============================================================
+   Dropdown
+   ============================================================ */
+.wa-dropdown {
+  background: var(--tg-surface-2);
+  border: 1px solid var(--tg-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+
+.wa-dropdown__item {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  color: var(--tg-text);
+  font-weight: 400;
+  transition: background 0.1s;
+}
+.wa-dropdown__item:hover { background: var(--tg-hover); }
+
+/* ============================================================
+   Composer / Input bar
+   ============================================================ */
+.tg-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--tg-panel);
+  border-top: 1px solid var(--tg-divider);
+}
+
+.tg-composer__input-wrap {
+  flex: 1;
+  background: var(--tg-surface);
+  border-radius: 22px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  transition: border-color 0.15s;
+  min-height: 44px;
+}
+
+.tg-composer__input-wrap:focus-within {
+  border-color: var(--tg-accent);
+}
+
+.tg-composer__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--tg-text);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  resize: none;
+  min-height: 24px;
+  max-height: 120px;
+}
+
+.tg-composer__input::placeholder { color: var(--tg-text-dim); }
+
+.tg-composer__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.tg-composer__btn--icon {
+  background: transparent;
+  color: var(--tg-text-muted);
+}
+.tg-composer__btn--icon:hover { color: var(--tg-text); background: var(--tg-hover); }
+
+.tg-composer__btn--send {
+  background: var(--tg-accent);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,122,255,0.35);
+}
+.tg-composer__btn--send:hover { opacity: 0.88; }
+.tg-composer__btn--send:active { transform: scale(0.93); }
+.tg-composer__btn--send:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+/* ============================================================
+   Typing Dots Animation
+   ============================================================ */
+@keyframes tg-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.tg-typing-dots {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.tg-typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tg-accent);
+  animation: tg-dot 1.2s infinite;
+}
+.tg-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.tg-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ============================================================
+   Load More Button
+   ============================================================ */
+.tg-load-more {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 0 0.25rem;
+}
+
+.tg-load-more__btn {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--tg-accent);
+  background: var(--tg-accent-dim);
+  border: 1px solid rgba(0,122,255,0.2);
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.tg-load-more__btn:hover { background: rgba(0,122,255,0.22); }
+.tg-load-more__btn:disabled { opacity: 0.5; cursor: default; }
+
+/* ============================================================
+   Online Dot
+   ============================================================ */
+.tg-online-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--tg-online);
+  border: 2px solid var(--tg-panel);
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+@keyframes tg-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes callPulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  70%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.tg-fade-in { animation: tg-fade-in 0.2s ease-out; }
+
+/* ============================================================
+   Section header inside lists
+   ============================================================ */
+.tg-section-label {
+  padding: 0.5rem 1rem 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--tg-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
